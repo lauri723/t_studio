@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%>
 
 <div class="container container-cart">
-    <div class="card-cart m-5">
+    <div class="card-cart">
         <div class="card-body">
             <h1 class="text-center mb-4">Checkout</h1>
             <hr>
@@ -23,7 +23,7 @@
                         <td>
                             <%if(artwork.photos.length) {%>
                             <div class="card-img-top">
-                                <img class="img-fluid cart-imgage" alt="" src="<%=artwork.photos[0].url%>">
+                                <img class="img-fluid cart-image" alt="" src="<%=artwork.photos[0].url%>">
                                 <% } %>
                         </td>
                         <td class="cart-item-title"><%= artwork.title %></td>
@@ -71,8 +71,8 @@
             <div class="container">
                 <div class="row cart-bottom">
                     <div class="col-6 cart-contact">
-                        <h2>COMPANY CONTACT INFO</h2>
-                        <h4>Any disclaimers and/or other pertinent stuff</h4>
+                        <h3>COMPANY CONTACT INFO</h3>
+                        <h6>Any disclaimers and/or other pertinent stuff</h6>
                     </div>
                     <div class="col-6 cart-totals">
                         <div class="totals">

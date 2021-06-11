@@ -48,7 +48,15 @@ body {
     /* font-size: 1.3rem; */
     font-weight: 600;
   }
+
+  svg.bi.bi-view-list {
+    color: var(--color-three);
+  }
   
+  .navbar-toggler {
+    color: var(--color-one);
+  }
+
   /* .navbar-nav {
     flex-direction: row;
   } */
@@ -100,14 +108,14 @@ body {
     bottom: 15px;
   }
   
-  h5 {
+  /* h5 {
     color: var(--color-one);
     font-size: 1.6em;
     font-weight: 400;
     position: relative;
     bottom: 10px;
   }
-  
+   */
   h5.offerings {
     font-family: 'Maven Pro', sans-serif;
     color: var(--color-one);
@@ -117,12 +125,12 @@ body {
     bottom: 10px;
   }
   
-  .logo {
+  /* .logo {
     width: 40rem;
     position: relative;
     right: 200px;
   }
-  
+   */
   .logo-imgs {
     /* width: 100%; */
     display: flex;
@@ -144,6 +152,14 @@ body {
   .logo-img.left {
     margin-left: 0px;
   }
+
+  .search-artwork, .search-student {
+    margin-left: 6rem;
+  }
+
+  /* .search-student {
+    margin-left: 8rem;
+  } */
   
   .leaf-index {
     background: linear-gradient(
@@ -177,9 +193,11 @@ body {
   }
   
   .img-car {
-    width: 525px;
+    max-width: 525px;
     justify-content: center;
     align-items: center;
+    margin: auto;
+    justify-self: center;
   }
   
   .img-leaf {
@@ -193,8 +211,8 @@ body {
   }
   
   .img-leaf-car {
-     width: 700px;
-    height: 700px;
+    max-width: 700px;
+    max-height: 700px;
     justify-content: center;
     align-items: center;
     margin: auto;
@@ -520,4 +538,67 @@ body {
   footer div.container.tril-lovely p {
     color: var(--color-one);
     font-size: 0.9rem;
+  }
+
+  @media only screen and (max-width: 765px) {
+    .trillStud {
+      font-size: 4em;
+    }  
+    h5.offerings {
+      font-size: 1.2em;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .search-artwork, .search-student {
+      margin-left: 1rem;
+    }
+    div.leaf-index.text-center div p {
+      padding: 0rem;
+    }
+    footer.footer a {
+      font-size: var(--font-size-fourteen);
+    }
+    .btn-small.btn-primary {
+      font-size: var(--font-size-sixteen);
+    }
+    footer div.container.tril-lovely p {
+      font-size: var(--font-size-fifteen);
+    }
+  }
+
+  @media only screen and (max-width: 465px) {
+    .trillStud {
+      font-size: 3em;
+    }  
+    h5.offerings {
+      font-size: .9em;
+    }
+  }
+
+  @media only screen and (max-width: 350px) {
+    .btn-small.btn-primary {
+      font-size: var(--font-size-seventeen);
+    }
+    .trillStud {
+      font-size: 2.6em;
+    }  
+    h5.offerings {
+      font-size: .78em;
+    }
+  }
+
+  @media only screen and (max-width: 300px) {
+    form.d-flex.ms-5 {
+      margin-block-start: auto;
+    }
+    footer.footer a {
+      font-size: var(--font-size-sixteen);
+    }
+    .btn-small.btn-primary {
+      font-size: var(--font-size-sixteen);
+    }
+    footer div.container.tril-lovely p {
+      font-size: var(--font-size-sixteen);
+    }
   }

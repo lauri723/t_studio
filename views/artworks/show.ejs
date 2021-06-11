@@ -1,7 +1,6 @@
 <% layout('layouts/boilerplate')%>
 
 <%- include('../partials/navbar')%>
-<%- include('../partials/logo')%>
 
 <div class="container">
 
@@ -17,8 +16,8 @@
 
 <!-- </div> -->
 
-    <div class="row mx-md-5">
-        <div class="col-md-7 mb-3 mb-md-5">
+    <div class="row mx-lg-5">
+        <div class="col-lg-7 mb-3 mb-md-5">
             <div id="carousel" class="carousel slide img-car" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <% artwork.photos.forEach((photo, i) => {  %>
@@ -38,7 +37,7 @@
             </div>
         </div>
 
-        <div class="col-md-5 mb-3 mb-md-5">
+        <div class="col-lg-5 mb-3 mb-md-5">
             <div class="card p-3">
                 <div class="card-body">
                     <h3 class="card-title"> <%= artwork.title %></h3>
