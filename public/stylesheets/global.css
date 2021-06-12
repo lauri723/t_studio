@@ -6,7 +6,7 @@
 body {
   font-family: 'Krub', sans-serif;
   color: var(--color-four);
-  font-size: 16px;
+  font-size: var(--font-size-thirteen);
   -webkit-font-smoothing: antialiased;
   display: flex;
   flex-direction: column;
@@ -192,7 +192,57 @@ button:disabled {
 }
 
 @media only screen and (max-width: 600px) {
+  body {
+    font-size: var(--font-size-thirteen);
+  }
   form {
+    width: 90vw;
+    min-width: 400px;
+  }
+  .container-cart-checkout {
     width: 80vw;
+    min-width: 400px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  body {
+    font-size: var(--font-size-fourteen);
+  }
+  form {
+    width: 90vw;
+    min-width: 350px;
+  }
+  .container-cart-checkout {
+    width: 90vw;
+    min-width: 350px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  body {
+    font-size: var(--font-size-fifteen);
+  }
+  form {
+    width: 100vw;
+    min-width: 300px;
+  }
+  .container-cart-checkout {
+    width: 100vw;
+    min-width: 300px;
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  body {
+    font-size: var(--font-size-sixteen);
+  }
+  form {
+    width: 100vw;
+    min-width: 270px;
+  }
+  .container-cart-checkout {
+    width: 100vw;
+    min-width: 270px;
   }
 }
