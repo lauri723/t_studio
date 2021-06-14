@@ -238,11 +238,9 @@ button:disabled {
     font-size: var(--font-size-sixteen);
   }
   form {
-    width: 100vw;
     min-width: 270px;
   }
   .container-cart-checkout {
-    width: 100vw;
     min-width: 270px;
   }
 }
