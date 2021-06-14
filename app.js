@@ -51,7 +51,8 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
-app.use(express.json())
+app.use('/webhook', express.raw({ type: 'application/json' }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
@@ -155,11 +156,6 @@ app.use('/collections/:id/artworks', artworkRoutes)
 app.use('/artworks', artworkRoutes)
 app.use('/students', studentRoutes)
 app.use('/cart', cartRoutes)
-
-
-app.all('*', (req, res, next) => {
-    next(new ExpressError('Page Not Found', 404))
-})
 
 app.all('*', function(req, res, next) {
     if(req.session.cart === undefined) {

@@ -1,7 +1,6 @@
 // A reference to Stripe.js initialized with a fake API key.
 // Sign in to see examples pre-filled with your key.
 var stripe = Stripe(STRIPE_PUBLIC_KEY);
-
 // Disable the button until we have Stripe set up on the page
 document.querySelector("button").disabled = true;
 
@@ -51,8 +50,40 @@ fetch("/create-payment-intent", {
     var form = document.getElementById("payment-form");
     form.addEventListener("submit", function(event) {
       event.preventDefault();
-      // Complete payment when the submit button is clicked
-      payWithCard(stripe, card, data.clientSecret);
+      // create a customer on the backend
+      const body = JSON.stringify({
+        customerData: {
+          name: customerName.value,
+          email: email.value,
+          shipping: {
+            name: shippingName.value,
+            phone: shippingPhone.value,
+            address: {
+              line1: shippingAddress1.value,
+              line2: shippingAddress2.value,
+              city: shippingCity.value,
+              state: shippingState.value,
+              country: 'US',
+              postal_code: shippingZip.value
+            },
+          },
+          phone: phone.value
+        }, 
+        paymentIntentId: data.paymentIntentId
+      });
+      fetch("/cart/create-customer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body
+      }).then(res => {
+        // Complete payment when the submit button is clicked
+        payWithCard(stripe, card, data.clientSecret);
+      }).catch(err => {
+        // Show error to your customer
+        showError('Something went wrong, please try again or contact site owner');
+      })
     });
   });
 
@@ -91,6 +122,15 @@ var orderComplete = function(paymentIntentId) {
     );
   document.querySelector(".result-message").classList.remove("hidden");
   document.querySelector("button").disabled = true;
+  // clear the cart
+  fetch("/cart/clear", {
+    method: "GET",
+  }).then(res => {
+    // do nothing
+  }).catch(err => {
+    // Show error to your customer
+    showError('Something went wrong, please try again or contact site owner');
+  })
 };
 
 // Show the customer the error from Stripe if their card fails to charge

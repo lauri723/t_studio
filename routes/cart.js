@@ -6,11 +6,13 @@ const catchAsync = require('../utils/catchAsync');
 const multer = require('multer');
 const { storage } = require('../cloudinary');
 const upload = multer({ storage });
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const Artwork = require('../models/artwork');
 
 router.get('/view', function (req, res, next) {
     const artworks = req.session.cart;
+    console.log(req.session);
     let subTotal = 0;
     artworks.forEach(artwork => subTotal += artwork.price);
     res.render('cart', {
@@ -21,8 +23,26 @@ router.get('/view', function (req, res, next) {
     });
 });
 
+router.post('/create-customer', async function(req, res, next) {
+    try {
+        const { paymentIntentId, customerData } = req.body;
+        const customer = await stripe.customers.create(customerData);
+        const paymentIntent = await stripe.paymentIntents.update(
+            paymentIntentId,
+            {customer: customer.id}
+          );
+        res.status(200).json({message: 'Customer successfully created!'});
+    } catch(err) {
+        next(err);
+    }
+})
+
 router.get('/checkout', function (req, res, next) {
-    const items = req.session.cart
+    const items = req.session.cart;
+    if (!items || !items.length) {
+        req.flash('error', 'Your cart is empty.');
+        return res.redirect('/');
+    }
     res.render('checkout', {
         items,
         stripePublicKey: process.env.STRIPE_PUBLIC_KEY
@@ -100,6 +120,11 @@ router.get('/update/:artwork', function (req, res, next) {
 
 router.get('/cancel', function(req, res, next) {
     res.redirect('/artworks');
+});
+
+router.get('/clear', function (req, res, next) {
+    delete req.session.cart;
+    res.redirect('/');
 });
 
 

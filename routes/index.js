@@ -5,6 +5,7 @@ const Artwork = require('../models/artwork')
 const Leaf = require('../models/leaf')
 const Student = require('../models/student')
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const endpointSecret = 'whsec_bNJSLxQu2IEAy6s8g9aKjloaJ20aBu5p';
 
 router.get('/', async (req, res) => {
     const collections = await Collection.find({}).sort({ orderKey: 1 }).sort({ createdAt: 'desc' })
@@ -35,11 +36,11 @@ router.post("/create-payment-intent", async (req, res) => {
     let amount;
     try {
         let docs = await Artwork.find({
-            '_id': { $in: items}
+            '_id': { $in: items }
         })
         docs.forEach(doc => total += doc.price)
         amount = total * 100
-    } catch(err) {
+    } catch (err) {
         console.log(err)
     }
     // Create a PaymentIntent with the order amount and currency
@@ -47,11 +48,47 @@ router.post("/create-payment-intent", async (req, res) => {
         amount,
         currency: "usd"
     });
-
     res.send({
         clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id,
         total
     });
+});
+
+// Webhook stuff for stripe
+
+const fulfillOrder = async (session) => {
+    // TODO: fill me in
+    console.log("Fulfilling order");
+    const customer = await stripe.customers.retrieve(
+        session.customer
+    );
+    console.log('Customer Info for fulfillment:', customer);
+}
+
+router.post('/webhook', (req, res) => {
+    const payload = req.body;
+    const sig = req.headers['stripe-signature'];
+
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+        console.log(event.type);
+    } catch (err) {
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+    switch (event.type) {
+        case 'payment_intent.succeeded': {
+            const session = event.data.object;
+
+            fulfillOrder(session);
+
+            break;
+        }
+    }
+
+    res.status(200);
 });
 
 module.exports = router

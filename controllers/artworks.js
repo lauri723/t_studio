@@ -2,6 +2,7 @@ const Collection = require('../models/collection');
 const Artwork = require('../models/artwork');
 const Leaf = require('../models/leaf');
 const { cloudinary } = require("../cloudinary");
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 module.exports.index = async (req, res) => {
     const perPage = 8;
@@ -44,6 +45,14 @@ module.exports.createArtwork = async (req, res) => {
     collection.artworks.push(artwork);
     await artwork.save();
     await collection.save();
+    // const product = await stripe.products.create({
+    //     name: artwork.title,
+    //   });
+    // const price = await stripe.prices.create({
+    //     product: product.id,
+    //     unit_amount: artwork.price * 100,
+    //     currency: 'usd'
+    // });
     console.log(artwork)
     req.flash('success', 'Created new artwork!');
     res.redirect('/admin')
