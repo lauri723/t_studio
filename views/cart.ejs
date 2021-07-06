@@ -93,7 +93,7 @@
                                     </tr>
                                     <tr class="shipHandle">
                                         <td class="td-left">Shipping and Handling</td>
-                                        <td class="td-right">$<span id="shippping"><%= shipping.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span></td>
+                                        <td class="td-right">$<span id="shippping"><%= shippingTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span></td>
                                     </tr>
                                     <tr>
                                         <td class="td-left"><label for="pickup">Click for in Person Pickup</label></td>
@@ -102,7 +102,7 @@
                                     <tr class="Order-total">
                                         <td class="td-left">Order Total</td>
                                         <td class="td-right">
-                                            $<span id="order-total"><%= (subTotal + shipping).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
+                                            $<span id="order-total"><%= (subTotal + shippingTotal).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -125,9 +125,9 @@
 
 <script>
     let pickup = document.getElementById('pickup');
-    let originalShipping = <%= shipping.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
+    let originalShipping = <%= shippingTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
     let subTotal = <%= subTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>;
-    let originalTotal = <%= (subTotal + shipping).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>;
+    let originalTotal = <%= (subTotal + shippingTotal).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>;
     let orderTotal = document.getElementById('order-total');
     let shipping = document.getElementById('shippping');
     pickup.addEventListener('change', function(e) {

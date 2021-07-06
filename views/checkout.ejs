@@ -75,7 +75,7 @@
           </div>
         </div>
         <div class="cart-btn text-center mt-3">
-          <a href="/cart/view" class="btn btn-sm btn-success px-4">BACK TO CART</a>
+          <a href="/back-to-cart" class="btn btn-sm btn-success px-4">BACK TO CART</a>
       </div>
       </div>
     </div>
@@ -90,6 +90,7 @@
         <input type="text" id="email" placeholder="Email address" required />
         <label for="phone">Phone</label>
         <input type="text" id="phone" placeholder="Phone" />
+        <% if(shipping) { %>
         <fieldset>
           <legend>Shipping Address</legend>
             <label for="shippingName">Shipping Name</label>
@@ -107,6 +108,7 @@
             <label for="shippingPhone">Shipping Phone</label>
             <input type="text" id="shippingPhone" placeholder="Shipping phone" required />
         </fieldset>
+        <% } %>
         <div id="card-element"><!--Stripe.js injects the Card Element--></div>
         <button id="submit">
           <div class="spinner hidden" id="spinner"></div>

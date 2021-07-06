@@ -38,6 +38,11 @@ router.get("/toggle-shipping", async (req, res, next) => {
     res.status(200).json({message: 'Shipping toggled'});
 })
 
+router.get("/back-to-cart", async (req, res, next) => {
+    req.session.shipping = true;
+    res.redirect('/cart/view');
+})
+
 router.post("/create-payment-intent", async (req, res) => {
     let { items } = req.body;
     let { shipping } = req.session;

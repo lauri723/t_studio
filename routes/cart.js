@@ -12,18 +12,17 @@ const Artwork = require('../models/artwork');
 
 router.get('/view', function (req, res, next) {
     const artworks = req.session.cart || [];
-    console.log(req.session);
     let subTotal = 0;
-    let shipping = 0;
+    let shippingTotal = 0;
     artworks.forEach(artwork => {
         subTotal += artwork.price;
-        shipping += artwork.shipping;
+        shippingTotal += artwork.shipping;
     });
     res.render('cart', {
         artworks: artworks,
         cart: req.session.cart,
         subTotal,
-        shipping
+        shippingTotal,
         // title: "Shopping Cart"
     });
 });
@@ -44,12 +43,14 @@ router.post('/create-customer', async function(req, res, next) {
 
 router.get('/checkout', function (req, res, next) {
     const items = req.session.cart;
+    const shipping = req.session.shipping;
     if (!items || !items.length) {
         req.flash('error', 'Your cart is empty.');
         return res.redirect('/');
     }
     res.render('checkout', {
         items,
+        shipping,
         stripePublicKey: process.env.STRIPE_PUBLIC_KEY
     });
 });
