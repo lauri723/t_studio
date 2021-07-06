@@ -84,6 +84,18 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label" for="shipping">Artwork Shipping</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="shipping-label">$</span>
+                        <input type="text" class="form-control" id="shipping" placeholder="0.00" aria-label="shipping"
+                            aria-describedby="shipping-label" name="artwork[shipping]" value="<%= artwork.shipping %>" required>
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label" for="photo">Image - May choose multiple images</label>
                     <div class="form-control">
                         <input type="file" class="form-file-input" id="photo" name="photo" multiple>

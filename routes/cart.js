@@ -11,14 +11,20 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Artwork = require('../models/artwork');
 
 router.get('/view', function (req, res, next) {
-    const artworks = req.session.cart;
+    const artworks = req.session.cart || [];
     console.log(req.session);
     let subTotal = 0;
-    artworks.forEach(artwork => subTotal += artwork.price);
+    let shipping = 0;
+    artworks.forEach(artwork => {
+        subTotal += artwork.price;
+        console.log('SHIPPING', artwork.shipping);
+        shipping += artwork.shipping;
+    });
     res.render('cart', {
         artworks: artworks,
         cart: req.session.cart,
-        subTotal
+        subTotal,
+        shipping
         // title: "Shopping Cart"
     });
 });
@@ -61,6 +67,7 @@ router.get('/add/:artwork', catchAsync(async function (req, res) {
                 title: artwork.title,
                 qty: 1,
                 price: artwork.price,
+                shipping: artwork.shipping,
                 photos: artwork.photos    //(req.files.map(f => ({ url: f.path, filename: f.filename })))
             });    
         } else {
@@ -74,6 +81,7 @@ router.get('/add/:artwork', catchAsync(async function (req, res) {
                     title: artwork.title,
                     qty: 1,
                     price: artwork.price,
+                    shipping: artwork.shipping,
                     photos: artwork.photos  //(req.files.map(f => ({ url: f.path, filename: f.filename })))
                 });
             } else {

@@ -32,6 +32,7 @@ const ArtworkSchema = new Schema({
     size: String,
     medium: String,
     price: Number,
+    shipping: Number,
     tags: String,
     notation: String,
     slug: {
