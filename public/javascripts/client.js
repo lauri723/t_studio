@@ -16,6 +16,12 @@ fetch("/create-payment-intent", {
   })
   .then(function(data) {
     // Custom code added by Ian
+    if(data && data.total) {
+      // check if data.total has a period (cents)
+      if(!data.total.toString().match(/\./)) {
+        data.total = data.total += '.00'
+      }
+    }
     document.getElementById('total').innerText = `$${data.total}`;
     //
     var elements = stripe.elements();
