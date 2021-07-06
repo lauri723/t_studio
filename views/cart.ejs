@@ -132,11 +132,19 @@
     let shipping = document.getElementById('shippping');
     pickup.addEventListener('change', function(e) {
         if(this.checked) {
+            // no shipping
             orderTotal.innerText = `${subTotal.toFixed(2)}`;
             shipping.innerText = '0.00';
+            fetch('/toggle-shipping?shipping=no')
+                .then(response => response.json())
+                .then(data => console.log(data));
         } else {
+            // add shipping
             orderTotal.innerText = `${originalTotal.toFixed(2)}`;
             shipping.innerText = originalShipping.toFixed(2);
+            fetch('/toggle-shipping?shipping=yes')
+                .then(response => response.json())
+                .then(data => console.log(data));
         }
     });
 </script>

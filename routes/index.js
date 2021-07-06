@@ -29,16 +29,32 @@ router.get('/admin', async (req, res) => {
     res.render('admin', { collections, collection, artwork, artworks, leaves, leaf, student, students })
 })
 
+router.get("/toggle-shipping", async (req, res, next) => {
+    if(req.query && req.query.shipping === 'yes') {
+        req.session.shipping = true;
+    } else {
+        req.session.shipping = false;
+    }
+    res.status(200).json({message: 'Shipping toggled'});
+})
+
 router.post("/create-payment-intent", async (req, res) => {
-    let { items } = req.body
+    let { items } = req.body;
+    let { shipping } = req.session;
     items = items.map(item => item.id)
-    let total = 0
+    let total = 0;
     let amount;
     try {
         let docs = await Artwork.find({
             '_id': { $in: items }
         })
-        docs.forEach(doc => total += doc.price)
+        // decide if we need to include shipping cost in payment intent
+        docs.forEach(doc => {
+            total += doc.price;
+            if(shipping) {
+                total += doc.shipping;
+            }
+        })
         amount = total * 100
     } catch (err) {
         console.log(err)

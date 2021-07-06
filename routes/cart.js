@@ -17,7 +17,6 @@ router.get('/view', function (req, res, next) {
     let shipping = 0;
     artworks.forEach(artwork => {
         subTotal += artwork.price;
-        console.log('SHIPPING', artwork.shipping);
         shipping += artwork.shipping;
     });
     res.render('cart', {
@@ -69,7 +68,7 @@ router.get('/add/:artwork', catchAsync(async function (req, res) {
                 price: artwork.price,
                 shipping: artwork.shipping,
                 photos: artwork.photos    //(req.files.map(f => ({ url: f.path, filename: f.filename })))
-            });    
+            }); 
         } else {
             let item = req.session.cart.find(item => {
                 return item.id == artwork._id;
@@ -88,6 +87,7 @@ router.get('/add/:artwork', catchAsync(async function (req, res) {
                 req.flash('success', 'Artwork can only be added to the cart one time.');
             }
         }
+        req.session.shipping = true;
         res.redirect('/cart/view')
     } catch(err) {
         console.log(err);
@@ -132,6 +132,7 @@ router.get('/cancel', function(req, res, next) {
 
 router.get('/clear', function (req, res, next) {
     delete req.session.cart;
+    delete req.session.shipping;
     res.redirect('/');
 });
 
