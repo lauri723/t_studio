@@ -56,27 +56,39 @@ fetch("/create-payment-intent", {
     var form = document.getElementById("payment-form");
     form.addEventListener("submit", function(event) {
       event.preventDefault();
-      // create a customer on the backend
-      const body = JSON.stringify({
-        customerData: {
-          name: customerName.value,
-          email: email.value,
-          shipping: {
-            name: shippingName.value,
-            phone: shippingPhone.value,
-            address: {
-              line1: shippingAddress1.value,
-              line2: shippingAddress2.value,
-              city: shippingCity.value,
-              state: shippingState.value,
-              country: 'US',
-              postal_code: shippingZip.value
+      let body;
+      if(isShipping) {
+        body = JSON.stringify({
+          customerData: {
+            name: customerName.value,
+            email: email.value,
+            shipping: {
+              name: shippingName.value,
+              phone: shippingPhone.value,
+              address: {
+                line1: shippingAddress1.value,
+                line2: shippingAddress2.value,
+                city: shippingCity.value,
+                state: shippingState.value,
+                country: 'US',
+                postal_code: shippingZip.value
+              }
             },
-          },
-          phone: phone.value
-        }, 
-        paymentIntentId: data.paymentIntentId
-      });
+            phone: phone.value
+          }, 
+          paymentIntentId: data.paymentIntentId
+        });
+      } else {
+        body = JSON.stringify({
+          customerData: {
+            name: customerName.value,
+            email: email.value,
+            phone: phone.value
+          }, 
+          paymentIntentId: data.paymentIntentId
+        });
+      }
+      // create a customer on the backend
       fetch("/cart/create-customer", {
         method: "POST",
         headers: {
